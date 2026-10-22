@@ -1,0 +1,8 @@
+streamlit>=1.37
+langchain>=0.2
+langgraph>=0.2
+openai>=1.40
+anthropic>=0.34
+python-dotenv>=1.0
+fastapi>=0.100
+uvicorn>=0.23
