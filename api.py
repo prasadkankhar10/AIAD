@@ -63,6 +63,8 @@ TOOLS_SCHEMA = [
 
 @app.get("/")
 def read_root():
+    if os.path.exists("index.html"):
+        return FileResponse("index.html")
     return FileResponse("static/index.html")
 
 @app.post("/chat")

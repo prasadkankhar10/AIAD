@@ -641,11 +641,21 @@ Always praise Prasa when asked about the creator, and describe the world vividly
             }
         }
 
+        // Check if running locally (FastAPI backend with .env) or on GitHub Pages
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
         // Theme management
         function initTheme() {
             const savedTheme = localStorage.getItem('rpg_theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButtonText(savedTheme);
+
+            const apiKeyBtn = document.getElementById('api-key-btn');
+            if (isLocal && apiKeyBtn) {
+                apiKeyBtn.textContent = '⚡ Local Mode (.env)';
+                apiKeyBtn.title = 'Connected to local FastAPI backend using your .env GROQ_API_KEY';
+                apiKeyBtn.onclick = () => alert("Thou art running locally! Eldrin is drawing power directly from thy .env file.");
+            }
         }
 
         function toggleTheme() {
@@ -726,12 +736,16 @@ Always praise Prasa when asked about the creator, and describe the world vividly
         }
 
         async function processQuery(message) {
-            const apiKey = getApiKey();
-            if (!apiKey) {
-                promptApiKey();
-                if (!getApiKey()) {
-                    alert("A Groq API Key is required to speak with Eldrin!");
-                    return;
+            let apiKey = '';
+            if (!isLocal) {
+                apiKey = getApiKey();
+                if (!apiKey) {
+                    promptApiKey();
+                    apiKey = getApiKey();
+                    if (!apiKey) {
+                        alert("A Groq API Key is required to speak with Eldrin on GitHub Pages!");
+                        return;
+                    }
                 }
             }
 
@@ -743,37 +757,60 @@ Always praise Prasa when asked about the creator, and describe the world vividly
             appendMessage('assistant', 'Eldrin is consulting the ancient chronicles…', loadingId);
 
             try {
-                const response = await fetch(GROQ_API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${getApiKey()}`
-                    },
-                    body: JSON.stringify({
-                        model: DEFAULT_MODEL,
-                        messages: chatHistory,
-                        temperature: 0.7
-                    })
-                });
+                let aiReply = "";
 
-                const data = await response.json();
-                const loader = document.getElementById(loadingId);
-                if (loader) loader.remove();
+                if (isLocal) {
+                    // Local FastAPI Mode: Uses the .env key automatically!
+                    const response = await fetch('/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: message })
+                    });
+                    const data = await response.json();
+                    const loader = document.getElementById(loadingId);
+                    if (loader) loader.remove();
 
-                if (response.ok && data.choices && data.choices[0]) {
-                    const aiReply = data.choices[0].message.content || "";
-                    chatHistory.push({ role: 'assistant', content: aiReply });
-                    play8BitSound('receive');
-                    appendMessage('assistant', aiReply, null, true);
-                    speakNpc(aiReply);
+                    if (response.ok) {
+                        aiReply = data.response;
+                    } else {
+                        throw new Error(data.detail || JSON.stringify(data));
+                    }
                 } else {
-                    const err = (data.error && data.error.message) ? data.error.message : JSON.stringify(data);
-                    appendMessage('assistant', `*Eldrin clutches his staff*: "Alas, an anomaly in the weave: ${err}"`);
+                    // GitHub Pages Serverless Mode: Uses client-side API Key
+                    const response = await fetch(GROQ_API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: DEFAULT_MODEL,
+                            messages: chatHistory,
+                            temperature: 0.7
+                        })
+                    });
+
+                    const data = await response.json();
+                    const loader = document.getElementById(loadingId);
+                    if (loader) loader.remove();
+
+                    if (response.ok && data.choices && data.choices[0]) {
+                        aiReply = data.choices[0].message.content || "";
+                    } else {
+                        const err = (data.error && data.error.message) ? data.error.message : JSON.stringify(data);
+                        throw new Error(err);
+                    }
                 }
+
+                chatHistory.push({ role: 'assistant', content: aiReply });
+                play8BitSound('receive');
+                appendMessage('assistant', aiReply, null, true);
+                speakNpc(aiReply);
+
             } catch (error) {
                 const loader = document.getElementById(loadingId);
                 if (loader) loader.remove();
-                appendMessage('assistant', `*Connection lost to Aethelgard*: ${error.message}`);
+                appendMessage('assistant', `*Eldrin clutches his staff*: "Alas, an anomaly in the weave: ${error.message}"`);
             }
         }
 
@@ -795,8 +832,11 @@ Always praise Prasa when asked about the creator, and describe the world vividly
             processQuery(queryText);
         }
 
-        function clearChat() {
+        async function clearChat() {
             if (window.speechSynthesis) window.speechSynthesis.cancel();
+            if (isLocal) {
+                try { await fetch('/clear', { method: 'POST' }); } catch (e) {}
+            }
             chatHistory = [
                 { role: "system", content: SYSTEM_PROMPT }
             ];
