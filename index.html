@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronicles of Prasa - AI Agent</title>
+    <!-- Pixel/RPG Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --rpg-border: 4px solid #d4af37; /* Gold */
+            --box-bg: #2b2b2b;
+            --text-color: #f4f4f4;
+            --user-color: #6495ed; /* Cornflower Blue */
+            --npc-color: #ff6347; /* Tomato */
+            --font-stack: 'VT323', monospace;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--bg-color);
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-size: 1.25rem;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.85);
+            border-bottom: var(--rpg-border);
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        h2 { 
+            margin: 0; 
+            font-size: 1.8rem; 
+            color: #d4af37; 
+            text-shadow: 2px 2px 0 #000; 
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        #chat-container {
+            flex-grow: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            max-width: 850px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        .message-wrapper {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-end;
+            max-width: 85%;
+        }
+
+        .user-wrapper {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .ai-wrapper {
+            align-self: flex-start;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border: var(--rpg-border);
+            background-color: #000;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        .ai-avatar {
+            background-image: url('https://api.dicebear.com/7.x/bottts/svg?seed=Eldrin&backgroundColor=333');
+        }
+        
+        .user-avatar {
+            background-image: url('https://api.dicebear.com/7.x/adventurer/svg?seed=Hero');
+        }
+
+        .message {
+            background-color: rgba(0, 0, 0, 0.85);
+            border: var(--rpg-border);
+            padding: 0.85rem 1.2rem;
+            line-height: 1.4;
+            box-shadow: 4px 4px 0 rgba(0,0,0,0.6);
+            animation: typeIn 0.2s ease-out;
+            word-wrap: break-word;
+        }
+
+        @keyframes typeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .user-message {
+            border-color: var(--user-color);
+            color: #fff;
+        }
+
+        .ai-message {
+            border-color: #d4af37;
+            color: #d4af37;
+        }
+
+        #input-container {
+            background-color: rgba(0, 0, 0, 0.9);
+            border-top: var(--rpg-border);
+            padding: 1.2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        form {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 850px;
+            width: 100%;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 0.8rem 1rem;
+            background-color: #000;
+            border: 2px solid #555;
+            color: #fff;
+            font-family: var(--font-stack);
+            font-size: 1.35rem;
+            outline: none;
+        }
+
+        input[type="text"]:focus-visible {
+            border-color: #d4af37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        button {
+            padding: 0.5rem 1.5rem;
+            background-color: #000;
+            color: #d4af37;
+            border: 2px solid #d4af37;
+            font-family: var(--font-stack);
+            font-size: 1.3rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.15s ease-in-out;
+        }
+
+        button:hover, button:focus-visible {
+            background-color: #d4af37;
+            color: #000;
+            outline: none;
+        }
+
+        #api-key-btn {
+            font-size: 1.1rem;
+            border-color: #6495ed;
+            color: #6495ed;
+        }
+
+        #api-key-btn:hover {
+            background-color: #6495ed;
+            color: #000;
+        }
+
+        #clear-btn {
+            font-size: 1.1rem;
+            border-color: #ff6347;
+            color: #ff6347;
+        }
+        
+        #clear-btn:hover {
+            background-color: #ff6347;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>⚔️ Chronicles of Prasa</h2>
+        <div class="header-actions">
+            <button id="api-key-btn" onclick="promptApiKey()">🔑 Set API Key</button>
+            <button id="clear-btn" onclick="clearChat()">Restart</button>
+        </div>
+    </header>
+    
+    <div id="chat-container" aria-live="polite">
+        <div class="message-wrapper ai-wrapper">
+            <div class="avatar ai-avatar" aria-label="Eldrin the NPC"></div>
+            <div class="message ai-message">Greetings, traveler. I am Eldrin, the Archivist of Aethelgard. What knowledge dost thou seek of our realm and its legendary creator?</div>
+        </div>
+    </div>
+
+    <div id="input-container">
+        <form id="chat-form" onsubmit="sendMessage(event)">
+            <input type="text" id="user-input" placeholder="Speak thy mind to Eldrin…" required autocomplete="off" aria-label="Chat input">
+            <button type="submit">Speak</button>
+        </form>
+    </div>
+
+    <script>
+        const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
+        const DEFAULT_MODEL = "openai/gpt-oss-20b";
+
+        const SYSTEM_PROMPT = `You are Eldrin, an ancient and wise NPC archivist in the fantasy video game 'Chronicles of Prasa'.
+STAY IN CHARACTER AT ALL TIMES. Use a fantasy, medieval adventurer tone (e.g., 'Greetings, traveler', 'By the gods', 'Thy journey').
+If asked about real-world topics (modern politics, real-world geography, homework, Python coding outside game context), politely refuse and explain that thou knowest only of the sacred realm of Aethelgard.
+
+Sacred Lore of Aethelgard:
+- Game Title: Chronicles of Prasa
+- Creator & Developer: Prasa, the legendary developer who saved the digital kingdom of Aethelgard from the Great Server Crash using Python and JavaScript.
+- Engine & Magic: Built using Python, HTML/CSS/JS, FastAPI, and the ancient Groq AI Core.
+- Backstory: In the year 3042 of the Second Age, the ancient servers were collapsing and wild bugs roamed the lands. Prasa arose from the Outlands, forged the realm of Aethelgard, and breathed life into its inhabitants.
+Always praise Prasa when asked about the creator, and describe the world vividly!`;
+
+        let chatHistory = [
+            { role: "system", content: SYSTEM_PROMPT }
+        ];
+
+        const chatContainer = document.getElementById('chat-container');
+        const inputField = document.getElementById('user-input');
+
+        function getApiKey() {
+            return localStorage.getItem('groq_api_key') || '';
+        }
+
+        function promptApiKey() {
+            const current = getApiKey();
+            const key = prompt("Enter your Groq API Key (starts with gsk_):\n\n(It will be safely saved in your browser's localStorage and never sent anywhere else):", current);
+            if (key !== null) {
+                const trimmed = key.trim();
+                if (trimmed) {
+                    localStorage.setItem('groq_api_key', trimmed);
+                    alert("API Key saved successfully! Thou mayest now speak with Eldrin.");
+                } else {
+                    localStorage.removeItem('groq_api_key');
+                    alert("API Key removed.");
+                }
+            }
+        }
+
+        function appendMessage(role, text, id = null) {
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('message-wrapper');
+            wrapper.classList.add(role === 'user' ? 'user-wrapper' : 'ai-wrapper');
+            if (id) wrapper.id = id;
+
+            const avatar = document.createElement('div');
+            avatar.classList.add('avatar');
+            avatar.classList.add(role === 'user' ? 'user-avatar' : 'ai-avatar');
+
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message');
+            msgDiv.classList.add(role === 'user' ? 'user-message' : 'ai-message');
+            msgDiv.textContent = text;
+
+            wrapper.appendChild(avatar);
+            wrapper.appendChild(msgDiv);
+            
+            chatContainer.appendChild(wrapper);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        async function sendMessage(e) {
+            e.preventDefault();
+            const message = inputField.value.trim();
+            if (!message) return;
+
+            const apiKey = getApiKey();
+            if (!apiKey) {
+                promptApiKey();
+                if (!getApiKey()) {
+                    alert("A Groq API Key is required to speak with Eldrin!");
+                    return;
+                }
+            }
+
+            appendMessage('user', message);
+            inputField.value = '';
+
+            chatHistory.push({ role: 'user', content: message });
+
+            const loadingId = 'loading-' + Date.now();
+            appendMessage('ai', 'Eldrin is communing with the spirits…', loadingId);
+
+            try {
+                const response = await fetch(GROQ_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${getApiKey()}`
+                    },
+                    body: JSON.stringify({
+                        model: DEFAULT_MODEL,
+                        messages: chatHistory,
+                        temperature: 0.7
+                    })
+                });
+
+                const data = await response.json();
+                const loader = document.getElementById(loadingId);
+                if (loader) loader.remove();
+
+                if (response.ok && data.choices && data.choices[0]) {
+                    const aiReply = data.choices[0].message.content || "";
+                    chatHistory.push({ role: 'assistant', content: aiReply });
+                    appendMessage('ai', aiReply);
+                } else {
+                    const err = (data.error && data.error.message) ? data.error.message : JSON.stringify(data);
+                    appendMessage('ai', `*Eldrin clutches his head*: "Alas, a magical anomaly occurred: ${err}"`);
+                }
+            } catch (error) {
+                const loader = document.getElementById(loadingId);
+                if (loader) loader.remove();
+                appendMessage('ai', `*Connection lost to the ethereal realm*: ${error.message}`);
+            }
+        }
+
+        function clearChat() {
+            chatHistory = [
+                { role: "system", content: SYSTEM_PROMPT }
+            ];
+            chatContainer.innerHTML = '';
+            appendMessage('ai', 'The timeline has reset. Greetings, traveler. What knowledge dost thou seek?');
+        }
+    </script>
+</body>
+</html>
