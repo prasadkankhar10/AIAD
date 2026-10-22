@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,20 +9,79 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #1a1a1a;
-            --rpg-border: 4px solid #d4af37; /* Gold */
-            --box-bg: #2b2b2b;
-            --text-color: #f4f4f4;
-            --user-color: #6495ed; /* Cornflower Blue */
-            --npc-color: #ff6347; /* Tomato */
+        /* Light Theme (Default) */
+        :root, [data-theme="light"] {
+            --bg-color: #f7f3ea;
+            --bg-overlay: rgba(247, 243, 234, 0.88);
+            --header-bg: #ffffff;
+            --header-border: #b48a28;
+            --header-title: #78350f;
+            --text-color: #291e14;
+            --rpg-border: 3px solid #b48a28;
+            
+            --user-box: #eff6ff;
+            --user-border: #3b82f6;
+            --user-text: #1e3a8a;
+            
+            --ai-box: #ffffff;
+            --ai-border: #b48a28;
+            --ai-text: #451a03;
+            
+            --input-container-bg: #ffffff;
+            --input-bg: #ffffff;
+            --input-border: #c4b5a2;
+            --input-text: #1c1917;
+            
+            --btn-bg: #fef3c7;
+            --btn-border: #b48a28;
+            --btn-text: #78350f;
+            --btn-hover-bg: #b48a28;
+            --btn-hover-text: #ffffff;
+            
+            --box-shadow: 4px 4px 0 rgba(120, 53, 15, 0.15);
             --font-stack: 'VT323', monospace;
+        }
+
+        /* Dark Theme Option */
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --bg-overlay: rgba(0, 0, 0, 0.85);
+            --header-bg: rgba(20, 20, 20, 0.95);
+            --header-border: #d4af37;
+            --header-title: #d4af37;
+            --text-color: #f4f4f4;
+            --rpg-border: 3px solid #d4af37;
+            
+            --user-box: rgba(15, 23, 42, 0.9);
+            --user-border: #6495ed;
+            --user-text: #93c5fd;
+            
+            --ai-box: rgba(26, 26, 26, 0.9);
+            --ai-border: #d4af37;
+            --ai-text: #fef08a;
+            
+            --input-container-bg: rgba(18, 18, 18, 0.95);
+            --input-bg: #000000;
+            --input-border: #555555;
+            --input-text: #ffffff;
+            
+            --btn-bg: #000000;
+            --btn-border: #d4af37;
+            --btn-text: #d4af37;
+            --btn-hover-bg: #d4af37;
+            --btn-hover-text: #000000;
+            
+            --box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             font-family: var(--font-stack);
             background-color: var(--bg-color);
-            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1920&q=80');
+            background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -32,11 +91,12 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
-            font-size: 1.25rem;
+            font-size: 1.3rem;
+            transition: background-color 0.25s ease, color 0.25s ease;
         }
 
         header {
-            background-color: rgba(0, 0, 0, 0.85);
+            background-color: var(--header-bg);
             border-bottom: var(--rpg-border);
             padding: 0.75rem 1.5rem;
             display: flex;
@@ -45,20 +105,26 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            z-index: 10;
         }
 
         h2 { 
             margin: 0; 
-            font-size: 1.8rem; 
-            color: #d4af37; 
-            text-shadow: 2px 2px 0 #000; 
+            font-size: 1.85rem; 
+            color: var(--header-title); 
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1); 
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .header-actions {
             display: flex;
-            gap: 0.75rem;
+            gap: 0.6rem;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         #chat-container {
@@ -71,7 +137,6 @@
             max-width: 850px;
             margin: 0 auto;
             width: 100%;
-            box-sizing: border-box;
             scroll-behavior: smooth;
         }
 
@@ -92,54 +157,57 @@
         }
 
         .avatar {
-            width: 48px;
-            height: 48px;
+            width: 46px;
+            height: 46px;
             border: var(--rpg-border);
-            background-color: #000;
+            background-color: var(--header-bg);
             background-size: cover;
             background-position: center;
             flex-shrink: 0;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
         }
 
         .ai-avatar {
-            background-image: url('https://api.dicebear.com/7.x/bottts/svg?seed=Eldrin&backgroundColor=333');
+            background-image: url('https://api.dicebear.com/7.x/bottts/svg?seed=Eldrin&backgroundColor=fef3c7');
         }
         
         .user-avatar {
-            background-image: url('https://api.dicebear.com/7.x/adventurer/svg?seed=Hero');
+            background-image: url('https://api.dicebear.com/7.x/adventurer/svg?seed=Hero&backgroundColor=dbeafe');
         }
 
         .message {
-            background-color: rgba(0, 0, 0, 0.85);
             border: var(--rpg-border);
             padding: 0.85rem 1.2rem;
-            line-height: 1.4;
-            box-shadow: 4px 4px 0 rgba(0,0,0,0.6);
+            line-height: 1.45;
+            box-shadow: var(--box-shadow);
             animation: typeIn 0.2s ease-out;
             word-wrap: break-word;
         }
 
         @keyframes typeIn {
-            from { opacity: 0; transform: scale(0.95); }
+            from { opacity: 0; transform: scale(0.96); }
             to { opacity: 1; transform: scale(1); }
         }
 
         .user-message {
-            border-color: var(--user-color);
-            color: #fff;
+            background-color: var(--user-box);
+            border-color: var(--user-border);
+            color: var(--user-text);
         }
 
         .ai-message {
-            border-color: #d4af37;
-            color: #d4af37;
+            background-color: var(--ai-box);
+            border-color: var(--ai-border);
+            color: var(--ai-text);
         }
 
         #input-container {
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: var(--input-container-bg);
             border-top: var(--rpg-border);
-            padding: 1.2rem;
+            padding: 1rem 1.5rem;
             display: flex;
             justify-content: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
         }
 
         form {
@@ -151,58 +219,67 @@
 
         input[type="text"] {
             flex-grow: 1;
-            padding: 0.8rem 1rem;
-            background-color: #000;
-            border: 2px solid #555;
-            color: #fff;
+            padding: 0.75rem 1rem;
+            background-color: var(--input-bg);
+            border: 2px solid var(--input-border);
+            color: var(--input-text);
             font-family: var(--font-stack);
             font-size: 1.35rem;
             outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
         }
 
         input[type="text"]:focus-visible {
-            border-color: #d4af37;
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            border-color: var(--header-border);
+            box-shadow: 0 0 0 3px rgba(180, 138, 40, 0.35);
         }
 
         button {
-            padding: 0.5rem 1.5rem;
-            background-color: #000;
-            color: #d4af37;
-            border: 2px solid #d4af37;
+            padding: 0.5rem 1.25rem;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: 2px solid var(--btn-border);
             font-family: var(--font-stack);
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             cursor: pointer;
             text-transform: uppercase;
             transition: all 0.15s ease-in-out;
         }
 
-        button:hover, button:focus-visible {
-            background-color: #d4af37;
-            color: #000;
+        button:hover {
+            background-color: var(--btn-hover-bg);
+            color: var(--btn-hover-text);
+        }
+
+        button:focus-visible {
             outline: none;
+            box-shadow: 0 0 0 3px rgba(180, 138, 40, 0.4);
+        }
+
+        #theme-toggle-btn {
+            border-color: #b48a28;
         }
 
         #api-key-btn {
-            font-size: 1.1rem;
-            border-color: #6495ed;
-            color: #6495ed;
+            border-color: #2563eb;
+            color: #1d4ed8;
+            background-color: #eff6ff;
         }
 
         #api-key-btn:hover {
-            background-color: #6495ed;
-            color: #000;
+            background-color: #2563eb;
+            color: #ffffff;
         }
 
         #clear-btn {
-            font-size: 1.1rem;
-            border-color: #ff6347;
-            color: #ff6347;
+            border-color: #dc2626;
+            color: #b91c1c;
+            background-color: #fef2f2;
         }
         
         #clear-btn:hover {
-            background-color: #ff6347;
-            color: #000;
+            background-color: #dc2626;
+            color: #ffffff;
         }
     </style>
 </head>
@@ -210,6 +287,7 @@
     <header>
         <h2>⚔️ Chronicles of Prasa</h2>
         <div class="header-actions">
+            <button id="theme-toggle-btn" onclick="toggleTheme()" title="Switch Light/Dark Theme">🌙 Dark Mode</button>
             <button id="api-key-btn" onclick="promptApiKey()">🔑 Set API Key</button>
             <button id="clear-btn" onclick="clearChat()">Restart</button>
         </div>
@@ -250,6 +328,28 @@ Always praise Prasa when asked about the creator, and describe the world vividly
 
         const chatContainer = document.getElementById('chat-container');
         const inputField = document.getElementById('user-input');
+        const themeBtn = document.getElementById('theme-toggle-btn');
+
+        // Theme management (Light Theme is default)
+        function initTheme() {
+            const savedTheme = localStorage.getItem('rpg_theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButtonText(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('rpg_theme', newTheme);
+            updateThemeButtonText(newTheme);
+        }
+
+        function updateThemeButtonText(theme) {
+            themeBtn.textContent = theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode';
+        }
+
+        initTheme();
 
         function getApiKey() {
             return localStorage.getItem('groq_api_key') || '';
