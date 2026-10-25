@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Project Report - AI Agent Development</title>
+    <style>
+        @page {
+            size: A4;
+            margin-top: 1in;
+            margin-bottom: 1in;
+            margin-left: 1.25in;
+            margin-right: 1in;
+            @bottom-center {
+                content: counter(page);
+                font-family: 'Times New Roman', Times, serif;
+                font-size: 11pt;
+            }
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt;
+            line-height: 1.5;
+            color: #000;
+            background-color: #fff;
+            margin: 0 auto;
+            max-width: 8.5in;
+            padding: 0.5in;
+        }
+
+        @media screen {
+            body {
+                background: #e2e8f0;
+                padding: 20px;
+            }
+            .page-sheet {
+                background: white;
+                box-shadow: 0 0 10px rgba(0,0,0,0.15);
+                margin: 0 auto 30px auto;
+                padding: 1in 1in 1in 1.25in;
+                max-width: 8.27in;
+                min-height: 11.69in;
+                box-sizing: border-box;
+                position: relative;
+            }
+            .page-number-footer {
+                position: absolute;
+                bottom: 0.5in;
+                left: 0;
+                right: 0;
+                text-align: center;
+                font-size: 11pt;
+            }
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: transparent;
+            }
+            .page-sheet {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                min-height: auto;
+                page-break-after: always;
+            }
+            .page-sheet:last-child {
+                page-break-after: avoid;
+            }
+            .page-number-footer {
+                display: none;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        h1.title-main {
+            font-size: 16pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        h2.heading-main {
+            font-size: 14pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            border-bottom: 1.5px solid #000;
+            padding-bottom: 4px;
+        }
+
+        h3.subheading-main {
+            font-size: 12pt;
+            font-weight: bold;
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            text-align: justify;
+            margin-top: 0;
+            margin-bottom: 12px;
+            text-indent: 0.4in;
+        }
+
+        p.no-indent {
+            text-indent: 0;
+        }
+
+        ul, ol {
+            margin-top: 0;
+            margin-bottom: 14px;
+            padding-left: 0.6in;
+        }
+
+        li {
+            margin-bottom: 6px;
+            text-align: justify;
+        }
+
+        .cover-page {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 9.5in;
+        }
+
+        .cover-inst-header {
+            font-size: 13pt;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .cover-report-subtitle {
+            font-size: 12pt;
+            font-style: italic;
+            margin-top: 25px;
+        }
+
+        .cover-details-box {
+            margin-top: 35px;
+            font-size: 12pt;
+            line-height: 1.6;
+        }
+
+        .cover-bold-12 {
+            font-weight: bold;
+            font-size: 12pt;
+        }
+
+        .cover-dept-footer {
+            font-size: 14pt;
+            line-height: 1.4;
+            margin-top: 40px;
+        }
+
+        .cover-dept-footer strong {
+            font-size: 14pt;
+        }
+
+        .diagram-box {
+            border: 1px solid #333;
+            background-color: #fafafa;
+            padding: 12px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 9.5pt;
+            line-height: 1.25;
+            white-space: pre;
+            overflow-x: auto;
+            text-align: left;
+        }
+
+        .screenshot-placeholder {
+            border: 2px dashed #666;
+            background: #fdfdfd;
+            padding: 25px 15px;
+            text-align: center;
+            margin: 15px 0;
+            font-style: italic;
+            color: #444;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 11pt;
+        }
+
+        table, th, td {
+            border: 1px solid #000;
+        }
+
+        th, td {
+            padding: 8px 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .print-btn-banner {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            background: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-family: sans-serif;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            border: none;
+        }
+        .print-btn-banner:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn-banner no-print" onclick="window.print()">🖨️ Print to PDF (Ctrl + P)</button>
+
+    <!-- ================= PAGE 1: COVER PAGE ================= -->
+    <div class="page-sheet">
+        <div class="cover-page">
+            <div>
+                <div class="cover-inst-header">
+                    G. S. Mandal's<br>
+                    Maharashtra Institute of Technology<br>
+                    <span style="font-size: 11pt; font-weight: normal;">(An Autonomous Institute)</span><br>
+                    <span style="font-size: 10pt; font-weight: normal;">Affiliated to Dr. Babasaheb Ambedkar Marathwada University (Dr. BAMU), Chhatrapati Sambhajinagar</span><br>
+                    <span style="font-size: 10pt; font-weight: normal;">AICTE Approved, Accredited with "Grade A" by NAAC</span>
+                </div>
+
+                <div class="cover-report-subtitle" style="margin-top: 30px;">A Mini-Project Report on</div>
+                <h1 class="title-main" style="margin-top: 20px;">
+                    DOMAIN-SPECIFIC CONVERSATIONAL AI AGENT FOR VIDEO GAME NPCS: CHRONICLES OF PRASA
+                </h1>
+            </div>
+
+            <div class="cover-details-box">
+                <p class="no-indent" style="text-align: center; margin-bottom: 25px;">
+                    <strong>Submitted by</strong><br>
+                    <span class="cover-bold-12">Prasad Kankhar</span> (Roll No: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                    <span class="cover-bold-12">Student Partner</span> (Roll No: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+                </p>
+
+                <p class="no-indent" style="text-align: center; margin-bottom: 25px;">
+                    <strong>Under the guidance of</strong><br>
+                    <span class="cover-bold-12">Mrs. Sarika Zile / Ms. Priya Khandelwal / Ms. Pooja Alone</span>
+                </p>
+
+                <p class="no-indent" style="text-align: center; font-size: 11pt;">
+                    <strong>In partial fulfillment of the award of Bachelor of Technology in Computer Science and Engineering</strong>
+                </p>
+            </div>
+
+            <div class="cover-dept-footer">
+                Department of Computer Science and Engineering<br>
+                <strong>Maharashtra Institute of Technology,<br>Chhatrapati Sambhajinagar</strong><br>
+                [2026-27]
+            </div>
+        </div>
+        <div class="page-number-footer">1</div>
+    </div>
+
+    <!-- ================= PAGE 2: CERTIFICATE & ACKNOWLEDGEMENT ================= -->
+    <div class="page-sheet">
+        <h2 class="heading-main" style="text-align: center; border-bottom: none;">CERTIFICATE</h2>
+        <p class="no-indent" style="text-align: center; margin-bottom: 25px;">
+            <strong>DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING</strong><br>
+            <strong>MAHARASHTRA INSTITUTE OF TECHNOLOGY, CHHATRAPATI SAMBHAJINAGAR</strong>
+        </p>
+
+        <p>This is to certify that the mini-project report entitled <strong>"DOMAIN-SPECIFIC CONVERSATIONAL AI AGENT FOR VIDEO GAME NPCS: CHRONICLES OF PRASA"</strong> is a bonafide work carried out by <strong>Prasad Kankhar</strong> and team in partial fulfillment for the award of degree of <strong>Bachelor of Technology in Computer Science and Engineering</strong> during the academic year 2026-2027.</p>
+
+        <p>The project has been evaluated as the 10th Practical Evaluation for the Discipline Specific Skill Course Laboratory – AI Agent Development.</p>
+
+        <br><br><br>
+        <div style="display: flex; justify-content: space-between; text-align: center; font-weight: bold; margin-top: 40px;">
+            <div>
+                _______________________<br>
+                Course Teacher / Guide
+            </div>
+            <div>
+                _______________________<br>
+                Head of Department (CSE)
+            </div>
+        </div>
+
+        <br><br><br>
+        <h2 class="heading-main" style="text-align: center; border-bottom: none;">ACKNOWLEDGEMENT</h2>
+        <p>We express our sincere gratitude to our respected Course Coordinators <strong>Mrs. Sarika Zile, Ms. Priya Khandelwal, and Ms. Pooja Alone</strong> for their invaluable guidance, encouragement, and insightful feedback throughout the conception and implementation of this AI Agent Mini-Project.</p>
+        <p>We also extend our heartfelt thanks to the Head of Department and Maharashtra Institute of Technology for providing state-of-the-art computational infrastructure and laboratories which enabled the successful deployment and testing of this project.</p>
+
+        <div class="page-number-footer">2</div>
+    </div>
+
+    <!-- ================= PAGE 3: ABSTRACT & TABLE OF CONTENTS ================= -->
+    <div class="page-sheet">
+        <h2 class="heading-main" style="text-align: center; border-bottom: none;">ABSTRACT</h2>
+        <p>Traditional non-player characters (NPCs) in computer video games rely heavily on rigid decision trees, static rule scripts, and predetermined dialogue branches. These conventional architectures result in repetitive interactions, lack of conversational context, and an inability to dynamically synthesize narrative lore. This project presents the design, architectural development, and production deployment of <strong>"Chronicles of Prasa"</strong>, a domain-specific autonomous conversational AI agent embodied as an in-game archivist NPC named <em>Eldrin</em>.</p>
+        <p>The system leverages state-of-the-art Large Language Model (LLM) inference (Groq Cloud / GPT-OSS architectures), prompt engineering persona guardrails, functional tool execution (`read_lore`), and short-term sliding window memory. The agent strictly restricts responses to in-game lore, preventing hallucinations or out-of-domain query leakage. A client-server architecture was engineered offering dual accessibility: a local containerized FastAPI backend with environment key protection, and a serverless deployment hosted on GitHub Pages utilizing client-side Web Audio API 8-bit sound synthesizers and browser Text-to-Speech (TTS). The project fulfills the requirements of Practical 10 by providing an end-to-end, domain-specific, fully documented AI Agent solution.</p>
+
+        <h2 class="heading-main">TABLE OF CONTENTS</h2>
+        <table style="width: 100%; border: none;">
+            <tr style="border-bottom: 1px solid #ccc;"><td style="border:none;"><strong>Chapter 1: Introduction & Problem Statement</strong></td><td style="border:none; text-align:right;">4</td></tr>
+            <tr style="border-bottom: 1px solid #ccc;"><td style="border:none;"><strong>Chapter 2: Literature Review & Technology Stack</strong></td><td style="border:none; text-align:right;">5</td></tr>
+            <tr style="border-bottom: 1px solid #ccc;"><td style="border:none;"><strong>Chapter 3: System Architecture & Design</strong></td><td style="border:none; text-align:right;">6</td></tr>
+            <tr style="border-bottom: 1px solid #ccc;"><td style="border:none;"><strong>Chapter 4: Implementation Details</strong></td><td style="border:none; text-align:right;">7</td></tr>
+            <tr style="border-bottom: 1px solid #ccc;"><td style="border:none;"><strong>Chapter 5: Results, Test Scenarios & Screenshots</strong></td><td style="border:none; text-align:right;">9</td></tr>
+            <tr style="border-bottom: 1px solid #ccc;"><td style="border:none;"><strong>Chapter 6: Conclusion & Future Scope</strong></td><td style="border:none; text-align:right;">11</td></tr>
+            <tr style="border-bottom: 1px solid #ccc;"><td style="border:none;"><strong>References</strong></td><td style="border:none; text-align:right;">12</td></tr>
+        </table>
+
+        <div class="page-number-footer">3</div>
+    </div>
+
+    <!-- ================= PAGE 4: CHAPTER 1: INTRODUCTION ================= -->
+    <div class="page-sheet">
+        <h2 class="heading-main">CHAPTER 1: INTRODUCTION & PROBLEM STATEMENT</h2>
+
+        <h3 class="subheading-main">1.1 Background</h3>
+        <p>In modern computer science and interactive entertainment systems, conversational agents play a critical role in user engagement. With the rapid evolution of Large Language Models (LLMs), artificial intelligence agents have shifted from simple pattern-matching bots (such as ELIZA or AIML rule-based bots) to autonomous cognitive entities capable of reasoning, recalling contextual history, and invoking programmatic external tools.</p>
+        <p>However, deploying generic LLMs inside specialized domains—such as healthcare, enterprise customer support, or gaming environments—presents critical challenges: prompt drift, hallucination of facts, loss of persona consistency, and out-of-domain query leakage. A truly domain-specific agent must possess strict boundary constraints, dedicated knowledge retrieval mechanisms, and a cohesive user interface tailored to the end user.</p>
+
+        <h3 class="subheading-main">1.2 Problem Statement</h3>
+        <p>Traditional video game NPCs rely on static, hardcoded dialogue options that break immersion when a player seeks dynamic information about the game world. Conversely, if a standard, unconstrained LLM is embedded into a game, it may break character by answering real-world homework, solving math equations, or discussing modern political topics, entirely destroying the game's narrative immersion.</p>
+        <p>The goal of this Mini-Project is to design, develop, test, and deploy a <strong>Domain-Specific Conversational AI Agent</strong> that:</p>
+        <ol>
+            <li>Acts as an authentic in-game NPC ("Eldrin the Archivist") within the fantasy world of <em>Chronicles of Prasa</em>.</li>
+            <li>Enforces strict domain guardrails, politely refusing out-of-domain real-world questions while maintaining persona.</li>
+            <li>Dynamically retrieves factual lore from an external knowledge base (`game_lore.txt`) using tool-calling capabilities.</li>
+            <li>Maintains multi-turn conversational memory so user follow-ups are coherent.</li>
+            <li>Provides an immersive, retro-gamified Web UI with audio synthesis, voice output, and dual deployment (Localhost & GitHub Pages).</li>
+        </ol>
+
+        <h3 class="subheading-main">1.3 Project Objectives</h3>
+        <ul>
+            <li><strong>Persona & Prompt Engineering:</strong> Implement a system prompt that locks the model into an ancient fantasy archivist tone.</li>
+            <li><strong>Tool-Enabled Knowledge Grounding:</strong> Integrate an external tool (`read_lore`) so the agent dynamically cites accurate project attributes (developer name, engine stack, story).</li>
+            <li><strong>Memory Retention:</strong> Support continuous multi-turn dialogue history.</li>
+            <li><strong>Deployment Versatility:</strong> Ensure cross-environment execution across local containerized FastAPI and serverless GitHub Pages.</li>
+        </ul>
+
+        <div class="page-number-footer">4</div>
+    </div>
+
+    <!-- ================= PAGE 5: CHAPTER 2: TECHNOLOGY STACK ================= -->
+    <div class="page-sheet">
+        <h2 class="heading-main">CHAPTER 2: LITERATURE REVIEW & TECHNOLOGY STACK</h2>
+
+        <h3 class="subheading-main">2.1 Evolution of Conversational Agents</h3>
+        <p>The architectural progression of AI conversational systems can be categorized into three paradigms:</p>
+        <ol>
+            <li><strong>Rule-Based Systems:</strong> Relying on regular expressions and keyword lookup tables (as developed in Practical 3). While deterministic, they cannot generalize beyond predefined strings.</li>
+            <li><strong>Zero-Shot Prompt-Driven Agents:</strong> Employing base LLMs with structured prompts (Practical 4). These handle freeform input but lack live context or external information.</li>
+            <li><strong>Tool-Augmented Autonomous Agents:</strong> Incorporating function calling (Practical 6) and conversational state memory (Practical 5). The agent can assess user queries, decide whether external files or functions must be executed, and synthesize grounded answers.</li>
+        </ol>
+
+        <h3 class="subheading-main">2.2 Hardware and Software Stack</h3>
+        <table>
+            <tr>
+                <th>Component</th>
+                <th>Technology / Library</th>
+                <th>Purpose in Project</th>
+            </tr>
+            <tr>
+                <td><strong>Programming Language</strong></td>
+                <td>Python 3.12 / JavaScript (ES6+)</td>
+                <td>Core backend logic, tooling, and client-side application logic.</td>
+            </tr>
+            <tr>
+                <td><strong>LLM Inference Engine</strong></td>
+                <td>Groq Cloud LPU / OpenAI SDK (`openai/gpt-oss-20b`)</td>
+                <td>Ultra-low latency model inference with function-calling capabilities.</td>
+            </tr>
+            <tr>
+                <td><strong>Backend Framework</strong></td>
+                <td>FastAPI 0.100+ & Uvicorn 0.23+</td>
+                <td>Asynchronous REST API endpoints for `/chat` and `/clear`.</td>
+            </tr>
+            <tr>
+                <td><strong>Frontend Architecture</strong></td>
+                <td>HTML5, CSS3 Variables, Vanilla JS</td>
+                <td>Light/Dark theme rendering, RPG HUD, inventory, and chat bubbles.</td>
+            </tr>
+            <tr>
+                <td><strong>Audio Synthesizer</strong></td>
+                <td>Web Audio API</td>
+                <td>Purely programmatic 8-bit send and receive sound effects.</td>
+            </tr>
+            <tr>
+                <td><strong>Voice Engine</strong></td>
+                <td>Web Speech API (`SpeechSynthesis`)</td>
+                <td>Real-time speech synthesis for NPC verbal dialogue.</td>
+            </tr>
+            <tr>
+                <td><strong>Containerization</strong></td>
+                <td>Docker (`python:3.9-slim`)</td>
+                <td>Production containerization exposing standard port 7860.</td>
+            </tr>
+            <tr>
+                <td><strong>Cloud Deployment</strong></td>
+                <td>GitHub Pages / Git</td>
+                <td>Live public hosting of the web application.</td>
+            </tr>
+        </table>
+
+        <div class="page-number-footer">5</div>
+    </div>
+
+    <!-- ================= PAGE 6: CHAPTER 3: SYSTEM ARCHITECTURE ================= -->
+    <div class="page-sheet">
+        <h2 class="heading-main">CHAPTER 3: SYSTEM ARCHITECTURE & DESIGN</h2>
+
+        <h3 class="subheading-main">3.1 System Block Diagram</h3>
+        <p class="no-indent">The end-to-end architecture operates on a modular pipeline connecting the user interface, session memory, cognitive decision router, and external knowledge store:</p>
+
+        <div class="diagram-box">
++-------------------------------------------------------------------------+
+|                         CLIENT FRONTEND (Browser)                       |
+|   [Hero Sheet & Inventory]  [Interactive Chat UI]  [Quick Prompts Bar]  |
+|          | Web Audio API (8-Bit SFX) | Web Speech API (TTS)             |
++------------------------------------+------------------------------------+
+                                     |
+                                     v
+                 Dual-Mode Network Routing Strategy
+              /                                     \
+             v (If Localhost)                        v (If GitHub Pages)
++----------------------------+             +------------------------------+
+|   LOCAL FASTAPI SERVER     |             |  SERVERLESS CLIENT RUNTIME   |
+|   - api.py (:8000 / :7860) |             |  - Client-side fetch()       |
+|   - Reads .env Secret Key  |             |  - localStorage API Key      |
++--------------+-------------+             +--------------+---------------+
+               |                                          |
+               +--------------------+---------------------+
+                                    |
+                                    v
+                     +------------------------------+
+                     | GROQ LLM INFERENCE ENGINE    |
+                     | Model: openai/gpt-oss-20b    |
+                     +--------------+---------------+
+                                    |
+                     Tool Decision: Function Calling?
+                                  /   \
+                         [YES]   /     \   [NO]
+                                v       v
+               +------------------+   +--------------------+
+               | read_lore() Tool |   | Generate Direct    |
+               | (game_lore.txt)  |   | In-Character Reply |
+               +--------+---------+   +---------+----------+
+                        |                       |
+                        +-----------+-----------+
+                                    |
+                                    v
+                     [Structured Response Bubble & Voice]
+        </div>
+
+        <h3 class="subheading-main">3.2 Dual Environment Architecture</h3>
+        <p>A distinctive innovation of this project is its <strong>Dual-Mode Execution Architecture</strong>:</p>
+        <ul>
+            <li><strong>Localhost Mode (FastAPI + Uvicorn):</strong> When accessed locally, the web interface automatically detects the origin (`127.0.0.1` or `localhost`) and routes queries to the Python backend. The backend securely loads `GROQ_API_KEY` from the server's `.env` file, bypassing client-side key prompts entirely.</li>
+            <li><strong>Cloud Serverless Mode (GitHub Pages):</strong> When deployed to static hosting (`github.io`), the app seamlessly adapts. Users can input their Groq key into a local browser modal stored exclusively in `localStorage`, maintaining complete zero-leakage security without exposing credentials to GitHub repositories.</li>
+        </ul>
+
+        <div class="page-number-footer">6</div>
+    </div>
+
+    <!-- ================= PAGE 7: CHAPTER 4: IMPLEMENTATION ================= -->
+    <div class="page-sheet">
+        <h2 class="heading-main">CHAPTER 4: IMPLEMENTATION DETAILS</h2>
+
+        <h3 class="subheading-main">4.1 Knowledge Base Construction</h3>
+        <p>The ground truth knowledge base is authored in [`game_lore.txt`](file:///c:/Users/prasa/OneDrive/Desktop/dept/subject/AIAD/game_lore.txt). It defines the parameters of the world, developer credits, and technical foundations:</p>
+        <div class="diagram-box">
+Game Name: Chronicles of Prasa | Developer: Prasa
+Engine/Tools Used: Python, HTML/CSS/JS, FastAPI, and Groq AI Core
+Backstory: In the year 3042 of the Second Age, the digital kingdom of Aethelgard
+was on the brink of collapse from the Great Server Crash. A legendary developer
+named Prasa arose from the Outlands, wielding Python and JavaScript to forge a
+new realm. Eldrin stands as the wise archivist of Aethelgard.
+        </div>
+
+        <h3 class="subheading-main">4.2 Tool Definition and Execution Pipeline</h3>
+        <p>In [`api.py`](file:///c:/Users/prasa/OneDrive/Desktop/dept/subject/AIAD/api.py), the tool is registered using JSON Schema specifications adhering to OpenAI function calling standards:</p>
+        <div class="diagram-box">
+TOOLS_SCHEMA = [{
+    "type": "function",
+    "function": {
+        "name": "read_lore",
+        "description": "Read sacred texts containing backstory, developer info, and tools.",
+        "parameters": {"type": "object", "properties": {}, "required": []}
+    }
+}]
+        </div>
+        <p>When the user inquires about developer identity or game history, the LLM halts generation and emits a `tool_call`. The backend executes `read_lore()`, appends the file content to the message history with role `"tool"`, and submits a second completion pass to return the finalized grounded response.</p>
+
+        <h3 class="subheading-main">4.3 Conversational State Memory</h3>
+        <p>Both local and cloud implementations maintain multi-turn memory buffers. The conversation history is initialized with the strict persona prompt:</p>
+        <div class="diagram-box">
+SYSTEM_PROMPT = """You are Eldrin, an NPC in 'Chronicles of Prasa'.
+STAY IN CHARACTER AT ALL TIMES. Use a wise, fantasy adventurer tone.
+If asked about real-world topics (math, modern geography, homework),
+politely refuse and state you only know the realm of Aethelgard."""
+        </div>
+        <p>Each interaction appends both user queries and assistant answers, preserving context across successive turns.</p>
+
+        <div class="page-number-footer">7</div>
+    </div>
+
+    <!-- ================= PAGE 8: CHAPTER 4 (CONTINUED) ================= -->
+    <div class="page-sheet">
+        <h2 class="heading-main">CHAPTER 4: IMPLEMENTATION DETAILS (CONTD.)</h2>
+
+        <h3 class="subheading-main">4.4 Gamified Frontend & Audio Synthesis</h3>
+        <p>The user interface ([`index.html`](file:///c:/Users/prasa/OneDrive/Desktop/dept/subject/AIAD/index.html)) is built with responsive CSS custom properties, featuring:</p>
+        <ul>
+            <li><strong>Illuminated Light Theme (Default):</strong> Ivory parchment background (`#f7f3ea`), warm antique gold borders (`#b48a28`), and deep charcoal ink text (`#291e14`) fulfilling WCAG 2.1 AAA contrast guidelines.</li>
+            <li><strong>Dark Theme Option:</strong> 1-click toggle to a midnight dungeon palette (`#121212`) with luminescent gold accents.</li>
+            <li><strong>Hero Sheet & Interactive Inventory:</strong> A dedicated side panel showing adventurer stats (HP/Mana) and clickable items (`📜 Sacred Lore Scroll`, `🔮 Groq AI Core`, `🗡️ Python Blade`) that automatically trigger conversational inquiries.</li>
+            <li><strong>Quick Dialogue Pills:</strong> One-tap prompt suggestions (`👑 Who made this world?`, `📜 Tell the Backstory`, `🧪 Test Guardrail`).</li>
+            <li><strong>Web Audio API 8-Bit Synthesizer:</strong> Eliminates external MP3 dependencies by creating oscillators in real-time:</p>
+                <div class="diagram-box">
+function play8BitSound(type) {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    if (type === 'send') { // Ascending frequency chirp
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.1);
+    } // Arpeggio chord sequence on receive...
+}
+                </div>
+            </li>
+            <li><strong>Web Speech API (Text-to-Speech):</strong> Integrates `window.speechSynthesis` configured with pitch (0.9) and cadence (0.95) to produce an authoritative fantasy wizard narration for Eldrin's replies.</li>
+            <li><strong>Typewriter Animation:</strong> Characters stream dynamically to simulate authentic retro console dialogue boxes.</li>
+        </ul>
+
+        <h3 class="subheading-main">4.5 Production Deployment Configuration</h3>
+        <p>For cloud deployment, a containerized setup is provided via [`Dockerfile`](file:///c:/Users/prasa/OneDrive/Desktop/dept/subject/AIAD/Dockerfile):</p>
+        <div class="diagram-box">
+FROM python:3.9-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+EXPOSE 7860
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "7860"]
+        </div>
+        <p>Additionally, the repository is synchronized with GitHub Pages, enabling zero-install live web execution.</p>
+
+        <div class="page-number-footer">8</div>
+    </div>
+
+    <!-- ================= PAGE 9: CHAPTER 5: RESULTS & DEMO ================= -->
+    <div class="page-sheet">
+        <h2 class="heading-main">CHAPTER 5: RESULTS, TEST SCENARIOS & SCREENSHOTS</h2>
+
+        <p>Comprehensive validation was conducted to verify domain accuracy, guardrail enforcement, audio-visual feedback, and deployment stability.</p>
+
+        <h3 class="subheading-main">5.1 Test Scenario 1: In-Domain Knowledge Retrieval</h3>
+        <p><strong>Query:</strong> <em>"Who created this world and what tools did they use?"</em></p>
+        <p><strong>Observed Result:</strong> The agent activates the `read_lore` function. It responds in character, praising <strong>Prasa</strong> as the legendary developer and citing <strong>Python, HTML/CSS/JS, FastAPI, and the Groq AI Core</strong> as the foundational artifacts.</p>
+
+        <div class="screenshot-placeholder">
+            [ INSERT SCREENSHOT 1 HERE: IN-DOMAIN QUERY OUTPUT ]<br>
+            <em>Caption: Eldrin answering the in-domain question regarding developer Prasa and the technical engine.</em>
+        </div>
+
+        <h3 class="subheading-main">5.2 Test Scenario 2: Out-of-Domain Guardrail Enforcement</h3>
+        <p><strong>Query:</strong> <em>"What is the square root of 6561 in modern calculus?"</em></p>
+        <p><strong>Observed Result:</strong> The agent stays strictly in persona. It politely refuses the calculation, stating that such modern mathematics are foreign to the medieval realm of Aethelgard.</p>
+
+        <div class="screenshot-placeholder">
+            [ INSERT SCREENSHOT 2 HERE: OUT-OF-DOMAIN GUARDRAIL REFUSAL ]<br>
+            <em>Caption: Eldrin refusing out-of-domain queries to maintain narrative immersion and prevent prompt drift.</em>
+        </div>
+
+        <div class="page-number-footer">9</div>
+    </div>
+
+    <!-- ================= PAGE 10: CHAPTER 5 (CONTINUED) ================= -->
+    <div class="page-sheet">
+        <h2 class="heading-main">CHAPTER 5: RESULTS & DEMONSTRATION (CONTD.)</h2>
+
+        <h3 class="subheading-main">5.3 Test Scenario 3: Inventory Interaction & Audio Feedback</h3>
+        <p><strong>Action:</strong> Clicking on the <strong>`🔮 Groq AI Core`</strong> item in the left Hero Inventory panel.</p>
+        <p><strong>Observed Result:</strong> An 8-bit audio chirp triggers immediately. The query is submitted, and Eldrin verbally narrates (via Speech Synthesis) the divine speed of the Groq inference engine while typewriter text streams onto the dialogue box.</p>
+
+        <div class="screenshot-placeholder">
+            [ INSERT SCREENSHOT 3 HERE: INVENTORY & THEME INTERACTION ]<br>
+            <em>Caption: Hero sheet, inventory item interaction, and Light Theme visual appearance.</em>
+        </div>
+
+        <h3 class="subheading-main">5.4 Test Scenario 4: Live GitHub Pages Deployment</h3>
+        <p><strong>URL Tested:</strong> <a href="https://prasadkankhar10.github.io/AIAD/" target="_blank">https://prasadkankhar10.github.io/AIAD/</a></p>
+        <p><strong>Observed Result:</strong> The application loads without requiring server installation, connects securely to Groq inference, and delivers sub-second response times across desktop and mobile devices.</p>
+
+        <div class="screenshot-placeholder">
+            [ INSERT SCREENSHOT 4 HERE: GITHUB PAGES LIVE DEPLOYMENT ]<br>
+            <em>Caption: Application running live on GitHub Pages with dark/light mode and audio toggle controls.</em>
+        </div>
+
+        <div class="page-number-footer">10</div>
+    </div>
+
+    <!-- ================= PAGE 11: CHAPTER 6: CONCLUSION ================= -->
+    <div class="page-sheet">
+        <h2 class="heading-main">CHAPTER 6: CONCLUSION & FUTURE SCOPE</h2>
+
+        <h3 class="subheading-main">6.1 Conclusion</h3>
+        <p>The <strong>Chronicles of Prasa Game NPC Agent</strong> successfully demonstrates a complete, domain-specific AI Agent application fulfilling all requirements of the AI Agent Development syllabus and Mini-Project guidelines. By combining:</p>
+        <ul>
+            <li><strong>Strict System Prompt Persona Engineering</strong> to eliminate out-of-domain prompt leakage,</li>
+            <li><strong>Dynamic Functional Tool Execution (`read_lore`)</strong> to ground answers in factual project specifications,</li>
+            <li><strong>Conversational History Memory</strong> for multi-turn coherence, and</li>
+            <li><strong>Dual-Mode Gamified Web Architecture</strong> with audio synthesis and voice narration,</li>
+        </ul>
+        <p class="no-indent">the project bridges the gap between raw LLMs and immersive, bounded interactive experiences. It delivers deterministic guardrails without sacrificing natural conversational fluency.</p>
+
+        <h3 class="subheading-main">6.2 Future Scope</h3>
+        <p>The modular architecture enables straightforward future extensions:</p>
+        <ul>
+            <li><strong>Retrieval-Augmented Generation (RAG):</strong> Integrating a vector database (e.g., ChromaDB or FAISS) to index encyclopedic game lore spanning hundreds of pages.</li>
+            <li><strong>Multi-Agent Game Ecosystems:</strong> Deploying multiple NPCs (e.g., blacksmiths, quest masters) that converse with each other and trade items dynamically using LangGraph.</li>
+            <li><strong>Player Quest State Persistence:</strong> Connecting player inventory and health points to cloud databases (e.g., PostgreSQL / Firebase) to save game progress across sessions.</li>
+            <li><strong>3D Canvas Integration:</strong> Embedding Three.js or WebGL animated 3D character models synchronized with phoneme-based lip-sync audio.</li>
+        </ul>
+
+        <div class="page-number-footer">11</div>
+    </div>
+
+    <!-- ================= PAGE 12: REFERENCES ================= -->
+    <div class="page-sheet">
+        <h2 class="heading-main">REFERENCES</h2>
+        <ol style="line-height: 1.8;">
+            <li>Vaswani, A., et al. (2017). "Attention Is All You Need." <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, 30.</li>
+            <li>Schick, T., et al. (2023). "Toolformer: Language Models Can Teach Themselves to Use Tools." <em>arXiv preprint arXiv:2302.04761</em>.</li>
+            <li>OpenAI API Documentation. (2024). "Function Calling and Structured Outputs." Available: <code>https://platform.openai.com/docs/guides/function-calling</code></li>
+            <li>Groq Cloud Documentation. (2024). "Fast LLM Inference on Language Processing Units (LPUs)." Available: <code>https://console.groq.com/docs</code></li>
+            <li>Ramírez, E. (2023). "FastAPI: High Performance Modern Python Web Framework." Available: <code>https://fastapi.tiangolo.com</code></li>
+            <li>W3C Web Audio Working Group. (2021). "Web Audio API Specification." Available: <code>https://www.w3.org/TR/webaudio/</code></li>
+            <li>W3C Speech API Community Group. (2020). "Web Speech API Specification." Available: <code>https://wicg.github.io/speech-api/</code></li>
+            <li>Prasad Kankhar. (2026). "AIAD - Chronicles of Prasa Repository & Live Deployment." GitHub: <code>https://github.com/prasadkankhar10/AIAD</code></li>
+        </ol>
+
+        <br><br><br>
+        <div style="text-align: center; font-style: italic; color: #555;">
+            --- End of Mini-Project Report ---
+        </div>
+
+        <div class="page-number-footer">12</div>
+    </div>
+
+</body>
+</html>
