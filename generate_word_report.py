@@ -209,7 +209,7 @@ def build_perfect_report():
     add_heading("TABLE OF CONTENTS", level=1)
     toc_data = [
         ("Chapter 1: Introduction & Problem Statement", "4"),
-        ("Chapter 2: Technology Stack & System Requirements", "5"),
+        ("Chapter 2: Technology Stack & System Specifications", "5"),
         ("Chapter 3: System Architecture & Design", "6"),
         ("Chapter 4: Implementation Details", "8"),
         ("Chapter 5: Results, Test Scenarios & Demonstration", "10"),
@@ -266,19 +266,12 @@ def build_perfect_report():
     doc.add_page_break()
 
     # =========================================================================
-    # PAGE 5: CHAPTER 2: TECHNOLOGY STACK & SYSTEM REQUIREMENTS
+    # PAGE 5: CHAPTER 2: TECHNOLOGY STACK & SYSTEM SPECIFICATIONS
     # =========================================================================
-    add_heading("CHAPTER 2: TECHNOLOGY STACK & SYSTEM REQUIREMENTS", level=1)
+    add_heading("CHAPTER 2: TECHNOLOGY STACK & SYSTEM SPECIFICATIONS", level=1)
 
-    add_heading("2.1 Technology Stack Architecture", level=2)
-    add_p("The Chronicles of Prasa conversational agent is engineered using a decoupled, lightweight technology stack designed specifically for sub-second dialogue response, zero-dependency audio synthesis, and strict persona containment:", indent=0.4)
-    add_list_item("•", "Inference Layer (Groq Cloud LPU): Deploys Language Processing Units (LPUs) optimized for matrix multiplications, achieving rapid generation latency essential for realistic gaming dialogues.")
-    add_list_item("•", "Backend Engine (FastAPI & Uvicorn): Handles asynchronous REST requests, orchestrating multi-turn memory buffers and functional tool execution (read_lore).")
-    add_list_item("•", "Audio Feedback Engines (Web Audio & Speech API): Employs native browser APIs to synthesize 8-bit sound effects and spoken wizard voice output without downloading external audio files.")
-    add_list_item("•", "Dual Deployment Pipeline (Docker & GitHub Pages): Offers containerized portability via Docker alongside zero-install serverless execution via GitHub Pages.")
-
-    add_heading("2.2 Hardware and Software Specifications", level=2)
-    add_p("The comprehensive technical and environment specifications are detailed below:", indent=0.4)
+    add_heading("2.1 Hardware and Software Environment Specifications", level=2)
+    add_p("The project integrates modern web technologies, modular backend micro-frameworks, and high-throughput language inference hardware to achieve sub-second conversational latency and deterministic persona confinement:", indent=0.4)
 
     # Clean Formatted Tech Table with borders and cell widths
     t_tech = doc.add_table(rows=1, cols=3)
@@ -324,6 +317,12 @@ def build_perfect_report():
                 run.font.size = Pt(9.5)
 
     set_table_borders(t_tech, color="94A3B8", sz="4", val="single")
+
+    add_heading("2.2 Architectural Justification & Tool Selection", level=2)
+    add_p("The selection of tools was driven by the strict latency, security, and immersion requirements of real-time interactive game agents:", indent=0.4)
+    add_list_item("•", "Groq LPU Inference: Traditional cloud APIs often introduce 2-4 second response delays, which severely disrupts game dialogue fluidity. Groq's custom LPU architecture delivers token generation speeds exceeding 300 tokens/sec, enabling immediate verbal NPC dialogue.")
+    add_list_item("•", "FastAPI Asynchronous Architecture: FastAPI offers high concurrency and native Pydantic data validation, providing lightweight, low-overhead endpoint processing for session memory handling and tool execution.")
+    add_list_item("•", "Native Web Audio & Speech APIs: Utilizing vanilla browser APIs eliminates bulky multi-megabyte sound libraries or external audio streams, ensuring zero-dependency deployment and cross-device compatibility.")
 
     doc.add_page_break()
 
@@ -520,8 +519,6 @@ def build_perfect_report():
         "Ramírez, E. (2023). \"FastAPI: High Performance Modern Python Web Framework.\" Available: https://fastapi.tiangolo.com",
         "W3C Web Audio Working Group. (2021). \"Web Audio API Specification.\" Available: https://www.w3.org/TR/webaudio/",
         "W3C Speech API Community Group. (2020). \"Web Speech API Specification.\" Available: https://wicg.github.io/speech-api/",
-        "Docker Documentation. (2024). \"Containerization Reference & Best Practices.\" Available: https://docs.docker.com",
-        "GitHub Pages Documentation. (2024). \"Publishing Static Websites from Repositories.\" Available: https://docs.github.com/pages",
         "Prasad Kankhar. (2026). \"AIAD - Chronicles of Prasa Repository & Live Deployment.\" GitHub: https://github.com/prasadkankhar10/AIAD"
     ]
     for i, ref in enumerate(refs, 1):

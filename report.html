@@ -319,7 +319,7 @@
         <h2 class="heading-main">TABLE OF CONTENTS</h2>
         <table style="width: 100%; border: none;">
             <tr style="border-bottom: 1px solid #ccc;"><td style="border:none;"><strong>Chapter 1: Introduction & Problem Statement</strong></td><td style="border:none; text-align:right;">4</td></tr>
-            <tr style="border-bottom: 1px solid #ccc;"><td style="border:none;"><strong>Chapter 2: Technology Stack & System Requirements</strong></td><td style="border:none; text-align:right;">5</td></tr>
+            <tr style="border-bottom: 1px solid #ccc;"><td style="border:none;"><strong>Chapter 2: Technology Stack & System Specifications</strong></td><td style="border:none; text-align:right;">5</td></tr>
             <tr style="border-bottom: 1px solid #ccc;"><td style="border:none;"><strong>Chapter 3: System Architecture & Design</strong></td><td style="border:none; text-align:right;">6</td></tr>
             <tr style="border-bottom: 1px solid #ccc;"><td style="border:none;"><strong>Chapter 4: Implementation Details</strong></td><td style="border:none; text-align:right;">7</td></tr>
             <tr style="border-bottom: 1px solid #ccc;"><td style="border:none;"><strong>Chapter 5: Results, Test Scenarios & Screenshots</strong></td><td style="border:none; text-align:right;">9</td></tr>
@@ -362,18 +362,10 @@
 
     <!-- ================= PAGE 5: CHAPTER 2: TECHNOLOGY STACK ================= -->
     <div class="page-sheet">
-        <h2 class="heading-main">CHAPTER 2: TECHNOLOGY STACK & SYSTEM REQUIREMENTS</h2>
+        <h2 class="heading-main">CHAPTER 2: TECHNOLOGY STACK & SYSTEM SPECIFICATIONS</h2>
 
-        <h3 class="subheading-main">2.1 Technology Stack Architecture</h3>
-        <p>The <em>Chronicles of Prasa</em> conversational agent is engineered using a decoupled, modular technology stack designed specifically for sub-second dialogue response, zero-dependency audio synthesis, and strict persona containment:</p>
-        <ul>
-            <li><strong>Inference Layer (Groq Cloud LPU):</strong> Deploys Language Processing Units (LPUs) optimized for matrix multiplications, achieving rapid generation latency essential for realistic gaming dialogues.</li>
-            <li><strong>Backend Engine (FastAPI & Uvicorn):</strong> Handles asynchronous REST requests, orchestrating multi-turn memory buffers and functional tool execution (<code>read_lore</code>).</li>
-            <li><strong>Audio Feedback Engines (Web Audio & Speech API):</strong> Employs native browser APIs to synthesize 8-bit sound effects and spoken wizard voice output without downloading external audio files.</li>
-            <li><strong>Dual Deployment Pipeline (Docker & GitHub Pages):</strong> Offers containerized portability via Docker alongside zero-install serverless execution via GitHub Pages.</li>
-        </ul>
-
-        <h3 class="subheading-main">2.2 Hardware and Software Specifications</h3>
+        <h3 class="subheading-main">2.1 Hardware and Software Environment Specifications</h3>
+        <p>The project integrates modern web technologies, modular backend micro-frameworks, and high-throughput language inference hardware to achieve sub-second conversational latency and deterministic persona confinement:</p>
         <table>
             <tr>
                 <th>Component</th>
@@ -421,6 +413,16 @@
                 <td>Live public hosting of the web application.</td>
             </tr>
         </table>
+
+        <h3 class="subheading-main">2.2 Framework Justification & Selection Rationale</h3>
+        <ul>
+            <li><strong>Groq LPU Acceleration:</strong> Conventional cloud endpoints often suffer 2–4 second delays. Groq's LPU provides over 300 tokens/sec, allowing immediate spoken NPC replies.</li>
+            <li><strong>FastAPI Microframework:</strong> Provides native asynchronous request processing and strict Pydantic payload validation for dependable tool execution.</li>
+            <li><strong>Native Web Audio & Speech APIs:</strong> Bypasses large external audio dependencies, guaranteeing lightweight, instant browser-based synthesis.</li>
+        </ul>
+
+        <div class="page-number-footer">5</div>
+    </div>
 
         <div class="page-number-footer">5</div>
     </div>
@@ -654,8 +656,6 @@ CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "7860"]
             <li>Ramírez, E. (2023). "FastAPI: High Performance Modern Python Web Framework." Available: <code>https://fastapi.tiangolo.com</code></li>
             <li>W3C Web Audio Working Group. (2021). "Web Audio API Specification." Available: <code>https://www.w3.org/TR/webaudio/</code></li>
             <li>W3C Speech API Community Group. (2020). "Web Speech API Specification." Available: <code>https://wicg.github.io/speech-api/</code></li>
-            <li>Docker Documentation. (2024). "Containerization Reference & Best Practices." Available: <code>https://docs.docker.com</code></li>
-            <li>GitHub Pages Documentation. (2024). "Publishing Static Websites from Repositories." Available: <code>https://docs.github.com/pages</code></li>
             <li>Prasad Kankhar. (2026). "AIAD - Chronicles of Prasa Repository & Live Deployment." GitHub: <code>https://github.com/prasadkankhar10/AIAD</code></li>
         </ol>
 

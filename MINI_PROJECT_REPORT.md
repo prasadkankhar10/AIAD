@@ -45,9 +45,9 @@ The system leverages state-of-the-art Large Language Model (LLM) inference (Groq
    - 1.1 Background
    - 1.2 Problem Statement
    - 1.3 Project Objectives
-2. **Chapter 2: Technology Stack & System Requirements**
-   - 2.1 Technology Stack Architecture
-   - 2.2 Hardware and Software Stack
+2. **Chapter 2: Technology Stack & System Specifications**
+   - 2.1 Hardware and Software Environment Specifications
+   - 2.2 Framework & Architectural Justification
 3. **Chapter 3: System Architecture & Design**
    - 3.1 System Block Diagram
    - 3.2 Dual Environment Architecture
@@ -94,16 +94,11 @@ The goal of this Mini-Project is to design, develop, test, and deploy a **Domain
 
 ---
 
-## CHAPTER 2: TECHNOLOGY STACK & SYSTEM REQUIREMENTS
+## CHAPTER 2: TECHNOLOGY STACK & SYSTEM SPECIFICATIONS
 
-### 2.1 Technology Stack Architecture
-The *Chronicles of Prasa* conversational agent is engineered using a decoupled, lightweight technology stack designed specifically for sub-second dialogue response, zero-dependency audio synthesis, and strict persona containment:
-- **Inference Layer (Groq Cloud LPU):** Deploys Language Processing Units (LPUs) optimized for matrix multiplications, achieving rapid generation latency essential for realistic gaming dialogues.
-- **Backend Engine (FastAPI & Uvicorn):** Handles asynchronous REST requests, orchestrating multi-turn memory buffers and functional tool execution (`read_lore`).
-- **Audio Feedback Engines (Web Audio & Speech API):** Employs native browser APIs to synthesize 8-bit sound effects and spoken wizard voice output without downloading external audio files.
-- **Dual Deployment Pipeline (Docker & GitHub Pages):** Offers containerized portability via Docker alongside zero-install serverless execution via GitHub Pages.
+### 2.1 Hardware and Software Environment Specifications
 
-### 2.2 Hardware and Software Stack
+The project integrates modern web technologies, modular backend micro-frameworks, and high-throughput language inference hardware to achieve sub-second conversational latency and deterministic persona confinement:
 
 | Component | Technology / Library | Purpose in Project |
 |---|---|---|
@@ -115,6 +110,11 @@ The *Chronicles of Prasa* conversational agent is engineered using a decoupled, 
 | **Voice Engine** | Web Speech API (`SpeechSynthesis`) | Real-time speech synthesis for NPC verbal dialogue. |
 | **Containerization** | Docker (`python:3.9-slim`) | Production containerization exposing standard port 7860. |
 | **Cloud Deployment** | GitHub Pages / Git | Live public hosting of the web application. |
+
+### 2.2 Framework & Architectural Justification
+- **Groq LPU Inference:** Traditional cloud APIs introduce 2–4 second delays which disrupt video game dialogue flow. Groq's LPU provides over 300 tokens/sec, enabling instantaneous NPC response and voice streaming.
+- **FastAPI Asynchronous Architecture:** Provides high concurrency, automatic OpenAPI documentation, and native Pydantic validation for robust message routing and tool payload management.
+- **Native Web Audio & Speech APIs:** Avoids heavy third-party audio libraries, enabling a 100% dependency-free client experience in standard modern browsers.
 
 ---
 
@@ -253,6 +253,4 @@ the project bridges the gap between raw LLMs and immersive, bounded interactive 
 3. Ramírez, E. (2023). "FastAPI: High Performance Modern Python Web Framework."
 4. W3C Web Audio Working Group. (2021). "Web Audio API Specification."
 5. W3C Speech API Community Group. (2020). "Web Speech API Specification."
-6. Docker Documentation. (2024). "Containerization Reference & Best Practices."
-7. GitHub Pages Documentation. (2024). "Publishing Static Websites from Repositories."
-8. Prasad Kankhar. (2026). "AIAD - Chronicles of Prasa Repository & Live Deployment." GitHub: `https://github.com/prasadkankhar10/AIAD`
+6. Prasad Kankhar. (2026). "AIAD - Chronicles of Prasa Repository & Live Deployment." GitHub: `https://github.com/prasadkankhar10/AIAD`
