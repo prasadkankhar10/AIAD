@@ -45,8 +45,8 @@ The system leverages state-of-the-art Large Language Model (LLM) inference (Groq
    - 1.1 Background
    - 1.2 Problem Statement
    - 1.3 Project Objectives
-2. **Chapter 2: Literature Review & Technology Stack**
-   - 2.1 Evolution of Conversational Agents
+2. **Chapter 2: Technology Stack & System Requirements**
+   - 2.1 Technology Stack Architecture
    - 2.2 Hardware and Software Stack
 3. **Chapter 3: System Architecture & Design**
    - 3.1 System Block Diagram
@@ -94,13 +94,14 @@ The goal of this Mini-Project is to design, develop, test, and deploy a **Domain
 
 ---
 
-## CHAPTER 2: LITERATURE REVIEW & TECHNOLOGY STACK
+## CHAPTER 2: TECHNOLOGY STACK & SYSTEM REQUIREMENTS
 
-### 2.1 Evolution of Conversational Agents
-The architectural progression of AI conversational systems can be categorized into three paradigms:
-1. **Rule-Based Systems:** Relying on regular expressions and keyword lookup tables (as developed in Practical 3). While deterministic, they cannot generalize beyond predefined strings.
-2. **Zero-Shot Prompt-Driven Agents:** Employing base LLMs with structured prompts (Practical 4). These handle freeform input but lack live context or external information.
-3. **Tool-Augmented Autonomous Agents:** Incorporating function calling (Practical 6) and conversational state memory (Practical 5). The agent can assess user queries, decide whether external files or functions must be executed, and synthesize grounded answers.
+### 2.1 Technology Stack Architecture
+The *Chronicles of Prasa* conversational agent is engineered using a decoupled, lightweight technology stack designed specifically for sub-second dialogue response, zero-dependency audio synthesis, and strict persona containment:
+- **Inference Layer (Groq Cloud LPU):** Deploys Language Processing Units (LPUs) optimized for matrix multiplications, achieving rapid generation latency essential for realistic gaming dialogues.
+- **Backend Engine (FastAPI & Uvicorn):** Handles asynchronous REST requests, orchestrating multi-turn memory buffers and functional tool execution (`read_lore`).
+- **Audio Feedback Engines (Web Audio & Speech API):** Employs native browser APIs to synthesize 8-bit sound effects and spoken wizard voice output without downloading external audio files.
+- **Dual Deployment Pipeline (Docker & GitHub Pages):** Offers containerized portability via Docker alongside zero-install serverless execution via GitHub Pages.
 
 ### 2.2 Hardware and Software Stack
 
@@ -247,11 +248,11 @@ the project bridges the gap between raw LLMs and immersive, bounded interactive 
 
 ## REFERENCES
 
-1. Vaswani, A., et al. (2017). "Attention Is All You Need." *Advances in Neural Information Processing Systems (NeurIPS)*, 30.
-2. Schick, T., et al. (2023). "Toolformer: Language Models Can Teach Themselves to Use Tools." *arXiv preprint arXiv:2302.04761*.
-3. OpenAI API Documentation. (2024). "Function Calling and Structured Outputs."
-4. Groq Cloud Documentation. (2024). "Fast LLM Inference on Language Processing Units (LPUs)."
-5. Ramírez, E. (2023). "FastAPI: High Performance Modern Python Web Framework."
-6. W3C Web Audio Working Group. (2021). "Web Audio API Specification."
-7. W3C Speech API Community Group. (2020). "Web Speech API Specification."
+1. OpenAI API Documentation. (2024). "Function Calling and Structured Outputs."
+2. Groq Cloud Documentation. (2024). "Fast LLM Inference on Language Processing Units (LPUs)."
+3. Ramírez, E. (2023). "FastAPI: High Performance Modern Python Web Framework."
+4. W3C Web Audio Working Group. (2021). "Web Audio API Specification."
+5. W3C Speech API Community Group. (2020). "Web Speech API Specification."
+6. Docker Documentation. (2024). "Containerization Reference & Best Practices."
+7. GitHub Pages Documentation. (2024). "Publishing Static Websites from Repositories."
 8. Prasad Kankhar. (2026). "AIAD - Chronicles of Prasa Repository & Live Deployment." GitHub: `https://github.com/prasadkankhar10/AIAD`
